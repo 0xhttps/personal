@@ -3,6 +3,8 @@ import injectedModule from '@web3-onboard/injected-wallets';
 
 const injected = injectedModule();
 
+const key = import.meta.env.INFURA_API_KEY;
+
 const onboard = Onboard({
   wallets: [injected],
   chains: [
@@ -10,7 +12,7 @@ const onboard = Onboard({
       id: '0x1', // Mainnet chain ID
       token: 'ETH',
       label: 'Ethereum Mainnet',
-      rpcUrl: 'https://mainnet.infura.io/v3/9fbff480374b43c79b9cd94c5dc348db' // Replace with your Infura project ID
+      rpcUrl: `https://mainnet.infura.io/v3/${key}` // Replace with your Infura project ID
     }
   ]
 });

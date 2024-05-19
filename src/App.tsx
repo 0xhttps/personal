@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, HashRouter } from 'react-router-dom';
+import { Route, Routes, HashRouter } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import NavBar from './components/NavBar';
@@ -17,7 +17,6 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-              {/* Add more routes here */}
             </Routes>
           </Box>
         </HashRouter>
