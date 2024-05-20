@@ -7,7 +7,7 @@ const Contact: React.FC = () => {
       <h1>Contact Page</h1>
       <p>This is where you can contact me.</p>
     </PageWrapper>  
-  );
+  );  
 };
 
 export default Contact;
