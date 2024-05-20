@@ -1,5 +1,5 @@
 import React from 'react';
-import PageWrapper from './util/PageWrapper';
+import PageWrapper from '../util/PageWrapper';
 
 const Home: React.FC = () => {
   return (

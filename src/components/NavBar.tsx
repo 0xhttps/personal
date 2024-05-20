@@ -7,6 +7,7 @@ import { useWeb3Onboard } from './util/Web3OnboardContext.tsx';
 
 const navItems = [
   { label: 'About', path: '/about' },
+  { label: 'Contact', path: '/contact'}
 ];
 
 const NavBar: React.FC = () => {
