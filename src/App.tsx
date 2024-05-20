@@ -5,7 +5,7 @@ import About from './components/About';
 import NavBar from './components/NavBar';
 import { ThemeContextProvider } from './ThemeContext';
 import { Web3OnboardProvider } from './components/util/Web3OnboardContext.tsx';
-import { Box } from '@mui/material';
+import { Box } from '@mui/material'; 
 
 const App: React.FC = () => {
   return (
