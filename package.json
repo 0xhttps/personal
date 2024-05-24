@@ -1,7 +1,7 @@
 {
-  "name": "0xhttps-web3",
+  "name": "personal",
   "private": true,
-  "homepage": "https://0xhttps.github.io/0xhttps-web3",
+  "homepage": "https://0xhttps.github.io/personal",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
