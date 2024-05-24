@@ -1,0 +1,6 @@
+{
+    "github": {
+      "ignoreCommand": "node ignore.js"
+    }
+}
+  
