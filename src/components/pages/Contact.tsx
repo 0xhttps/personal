@@ -1,12 +1,19 @@
 import React from 'react';
 import PageWrapper from '../util/PageWrapper';
+import { Heading } from '@chakra-ui/react';
 
 const Contact: React.FC = () => {
   return (
     <PageWrapper>
-      <h1>Contact Page</h1>
-      <p>This is where you can contact me.</p>
-    </PageWrapper>  
+      <code>
+        <Heading>Contact Page</Heading>
+        <body>
+          <code>
+            This is where you can contact me.
+          </code>
+        </body>
+      </code>
+    </PageWrapper>
   );  
 };
 

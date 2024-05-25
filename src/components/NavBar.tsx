@@ -3,7 +3,6 @@ import { Link as RouterLink, NavLink as RouterNavLink, useLocation } from 'react
 import { AppBar, Toolbar, Typography, Button, IconButton, Box } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { useThemeContext } from '../ThemeContext';
-import { useWeb3Onboard } from './util/Web3OnboardContext.tsx';
 
 const navItems = [
   { label: 'About', path: '/about' },
@@ -12,18 +11,7 @@ const navItems = [
 
 const NavBar: React.FC = () => {
   const { toggleColorMode, theme } = useThemeContext();
-  const { connect, disconnect, connectedWallet } = useWeb3Onboard();
   const location = useLocation();
-
-  const handleLogin = async () => {
-    console.log("Login button clicked");
-    await connect();
-  };
-
-  const handleLogout = () => {
-    console.log("Logout button clicked");
-    disconnect();
-  };
 
   return (
     <AppBar position="fixed" color="default">
@@ -40,7 +28,7 @@ const NavBar: React.FC = () => {
               textTransform: 'none',
             }}
           >
-            0xhttps
+            <code>0xhttps</code>
           </Typography>
           {navItems.map((item) => (
             <Button
@@ -65,19 +53,10 @@ const NavBar: React.FC = () => {
               }}
               color="inherit"
             >
-              {item.label}
+              <code>{item.label}</code>
             </Button>
           ))}
         </Box>
-        {connectedWallet ? (
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
-          </Button>
-        ) : (
-          <Button color="inherit" onClick={handleLogin}>
-            Login
-          </Button>
-        )}
         <IconButton edge="end" color="inherit" aria-label="mode" onClick={toggleColorMode}>
           {theme.palette.mode === 'light' ? <Brightness4 /> : <Brightness7 />}
         </IconButton>
