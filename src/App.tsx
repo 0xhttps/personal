@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Routes, HashRouter } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import { ThemeContextProvider } from './ThemeContext';
-import { Web3OnboardProvider } from './components/util/Web3OnboardContext.tsx';
 import { Box } from '@mui/material'; 
 
 import Home from './components/pages/Home.tsx';
@@ -12,7 +11,6 @@ import Contact from './components/pages/Contact.tsx';
 const App: React.FC = () => {
   return (
     <ThemeContextProvider>
-      <Web3OnboardProvider>
         <HashRouter>
           <NavBar />
           <Box sx={{ mt: 8 }}>
@@ -23,7 +21,6 @@ const App: React.FC = () => {
             </Routes>
           </Box>
         </HashRouter>
-      </Web3OnboardProvider>
     </ThemeContextProvider>
   );
 };
