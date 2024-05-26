@@ -19,19 +19,22 @@ const NavBar: React.FC = () => {
     <AppBar position="fixed" color="default">
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-          <Typography
-            variant="h6"
-            component={RouterLink}
-            to="/"
-            sx={{
-              marginRight: '20px',
-              textDecoration: 'none',
-              color: location.pathname === '/' ? '#FF7F50' : 'inherit',
-              textTransform: 'none',
-            }}
-          >
+          <IconButton>
+            <Typography
+              variant="h6"
+              component={RouterLink}
+              to="/"
+              sx={{
+                marginRight: '20px',
+                textDecoration: 'none',
+                color: location.pathname === '/' ? '#FF7F50' : 'inherit',
+                textTransform: 'none',
+              }}
+            >
             <code>0xhttps</code>
           </Typography>
+          </IconButton>
+          
           {navItems.map((item) => (
             <Button
               key={item.label}
@@ -67,7 +70,6 @@ const NavBar: React.FC = () => {
           color="inherit" 
           aria-label="terminal" 
           onClick={handleOpen} 
-          disabled={location.pathname === '/'}  // Disable button if on the home page
         >
           <TerminalIcon />
         </IconButton>

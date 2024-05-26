@@ -9,7 +9,6 @@ import About from './components/pages/About';
 import Contact from './components/pages/Contact';
 import TerminalOverlay from './components/util/TerminalOverlay';
 import TerminalProvider from './components/util/TerminalContext';
-import TerminalComponent from './components/util/TerminalComponent';
 
 const App: React.FC = () => {
   return (
@@ -19,9 +18,7 @@ const App: React.FC = () => {
           <NavBar />
           <Box sx={{ mt: 8 }}>
             <Routes>
-              <Route path="/" element={<>
-                <TerminalComponent/>
-              </>} />
+              <Route path="/" element={<Home/>} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
             </Routes>

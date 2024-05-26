@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useRef } from 'react';
 import { Terminal } from 'xterm';
 import 'xterm/css/xterm.css';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -29,14 +29,16 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { setColorMode } = useThemeContext();
   const navigate = useNavigate();
   const location = useLocation();
+  const terminalContainerRef = useRef<HTMLDivElement | null>(null);
   const welcomeMessage = 'Welcome';
+  let commandBuffer = '';
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === 'e' && location.pathname !== '/') {
+      if (event.altKey && event.key === 'q') {
         handleOpen();
       }
     };
@@ -49,7 +51,9 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, [location.pathname]);
 
   const initTerminal = (container: HTMLDivElement) => {
-    if (term === null) {
+    terminalContainerRef.current = container;
+
+    if (!term) {
       const terminalInstance = new Terminal({
         cursorBlink: true,
         fontFamily: 'monospace',
@@ -67,8 +71,8 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         terminalInstance.write('\r\n$ ');
       };
 
-      terminalInstance.writeln(`${welcomeMessage}\r\nYou can use this terminal to navigate the website\r\n"help" for a list of commands`);
-      terminalInstance.writeln(`\r\nctrl + e to open terminal, or use button in nav`);
+      terminalInstance.writeln(`${welcomeMessage}\r\nUse this terminal to navigate\r\n"help" for commands`);
+      terminalInstance.writeln(`\r\nAlt + Q to toggle`);
 
       prompt();
 
@@ -76,21 +80,24 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey;
 
         if (domEvent.key === 'Enter') {
-          const command = terminalInstance.buffer.active.getLine(terminalInstance.buffer.active.cursorY)?.translateToString(false).trim().substring(2);
+          const command = commandBuffer.trim();
+          commandBuffer = '';
           runFakeCommand(terminalInstance, command);
           prompt();
         } else if (domEvent.key === 'Backspace') {
-          if (terminalInstance.buffer.active.cursorX > 2) {
+          if (commandBuffer.length > 0) {
+            commandBuffer = commandBuffer.slice(0, -1);
             terminalInstance.write('\b \b');
           }
         } else if (printable) {
+          commandBuffer += key;
           terminalInstance.write(key);
         }
       });
     } else {
-      // Reattach the existing terminal instance to the new container
       container.innerHTML = '';
       term.open(container);
+      term.focus();
     }
   };
 
@@ -123,6 +130,8 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       case 'clear':
       case 'reset':
         term.reset();
+        term.writeln(`${welcomeMessage}\r\nUse this terminal to navigate\r\n"help" for commands`);
+        term.writeln(`\r\nAlt + Q to toggle`);
         break;
 
       //list all pages
