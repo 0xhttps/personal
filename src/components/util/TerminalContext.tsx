@@ -130,6 +130,7 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         term.writeln(`\r\n\nls            list all pages`);
         term.writeln(`cd <page>     go to page`);
         term.writeln(`cd ..         go to previous page`);
+        term.writeln(`pwd           view current path`);
         term.writeln(`\nlight         toggle light mode`);
         term.writeln(`dark          toggle dark mode`);
         term.writeln(`date          current date`);
