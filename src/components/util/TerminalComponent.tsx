@@ -18,11 +18,9 @@ const TerminalComponent: React.FC = () => {
         width: '100%', 
         height: '100%', 
         backgroundColor: '#1E1E1E',
-        whiteSpace: 'pre-wrap',
-        overflow: 'hidden',
-        wordWrap: 'break-word',
         paddingTop: 10,
         paddingLeft: 10,
+        overflow: 'hidden'
       }} 
     />
   );
