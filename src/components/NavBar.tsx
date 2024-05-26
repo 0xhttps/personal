@@ -1,16 +1,18 @@
 import React from 'react';
 import { Link as RouterLink, NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, IconButton, Box } from '@mui/material';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
+import { Brightness4, Brightness7, Terminal as TerminalIcon } from '@mui/icons-material';
 import { useThemeContext } from '../ThemeContext';
+import { useTerminalContext } from './util/TerminalContext';
 
-const navItems = [
+export const navItems = [
   { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/contact'}
+  { label: 'Contact', path: '/contact' }
 ];
 
 const NavBar: React.FC = () => {
   const { toggleColorMode, theme } = useThemeContext();
+  const { handleOpen } = useTerminalContext();
   const location = useLocation();
 
   return (
@@ -59,6 +61,15 @@ const NavBar: React.FC = () => {
         </Box>
         <IconButton edge="end" color="inherit" aria-label="mode" onClick={toggleColorMode}>
           {theme.palette.mode === 'light' ? <Brightness4 /> : <Brightness7 />}
+        </IconButton>
+        <IconButton 
+          edge="end" 
+          color="inherit" 
+          aria-label="terminal" 
+          onClick={handleOpen} 
+          disabled={location.pathname === '/'}  // Disable button if on the home page
+        >
+          <TerminalIcon />
         </IconButton>
       </Toolbar>
     </AppBar>
