@@ -26,16 +26,14 @@ const TerminalOverlay: React.FC = () => {
           tabIndex={-1}
           sx={{
             position: 'absolute',
-            top: '50%',
+            top: '30%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '80%',
-            height: '80%',
+            width: 'auto',
+            maxWidth: '95vw',
+            height: 'auto',
             bgcolor: 'background.paper',
             boxShadow: 24,
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: '8px', // Optional: Add rounded corners
           }}
         >
           <Box
@@ -43,9 +41,9 @@ const TerminalOverlay: React.FC = () => {
               display: 'flex',
               justifyContent: 'flex-end',
               alignItems: 'center',
-              height: '40px', // Set header height
+              height: '40px',
               padding: '0 10px',
-              bgcolor: 'background.default',
+              bgcolor: '#333',
               borderBottom: '1px solid',
               borderColor: 'divider',
             }}
@@ -54,13 +52,13 @@ const TerminalOverlay: React.FC = () => {
               aria-label="close"
               onClick={handleClose}
               sx={{
-                color: (theme) => theme.palette.grey[500],
+                color: 'white',
               }}
             >
               <CloseIcon />
             </IconButton>
           </Box>
-          <Box sx={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ flex: 1 }}>
             <TerminalComponent />
           </Box>
         </Box>

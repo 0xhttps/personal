@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link as RouterLink, NavLink as RouterNavLink, useLocation } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, IconButton, Box } from '@mui/material';
-import { Brightness4, Brightness7, Terminal as TerminalIcon } from '@mui/icons-material';
+import { Link as RouterLink, NavLink as RouterNavLink } from 'react-router-dom';
+import { AppBar, Toolbar, Button, IconButton, Box, Popper, Paper, List, ListItem, ListItemText, useMediaQuery } from '@mui/material';
+import { Brightness4, Brightness7, Terminal as TerminalIcon, Menu as MenuIcon } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 import { useThemeContext } from '../ThemeContext';
 import { useTerminalContext } from './util/TerminalContext';
 
@@ -10,32 +11,63 @@ export const navItems = [
   { label: 'Contact', path: '/contact' }
 ];
 
+
 const NavBar: React.FC = () => {
   const { toggleColorMode, theme } = useThemeContext();
   const { handleOpen } = useTerminalContext();
-  const location = useLocation();
+  const themeMUI = useTheme();
+  const isMobile = useMediaQuery(themeMUI.breakpoints.down('sm'));
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
+
+  const menuItems = (
+    <List>
+      {navItems.map((item) => (
+        <ListItem button key={item.label} component={RouterLink} to={item.path} onClick={handleMenuClose}>
+          <ListItemText 
+            primary={<code>{item.label}</code>} />
+        </ListItem>
+      ))}
+    </List>
+  );
 
   return (
     <AppBar position="fixed" color="default">
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-          <IconButton>
-            <Typography
-              variant="h6"
-              component={RouterLink}
-              to="/"
+          <Button
+              component={RouterNavLink}
+              to={'/'}
               sx={{
-                marginRight: '20px',
-                textDecoration: 'none',
-                color: location.pathname === '/' ? '#FF7F50' : 'inherit',
+                margin: '0 10px',
+                position: 'relative',
                 textTransform: 'none',
+                '&.active::after': {
+                  content: '""',
+                  position: 'absolute',
+                  width: '100%',
+                  height: '2px',
+                  backgroundColor: '#FF7F50',
+                  bottom: '-5px',
+                  left: 0,
+                  textColor: '#FF7F50',
+                },
+                color: '#FF7F50',
               }}
             >
-            <code>0xhttps</code>
-          </Typography>
-          </IconButton>
-          
-          {navItems.map((item) => (
+              <code>0xhttps</code>
+            </Button>
+          {!isMobile && navItems.map((item) => (
             <Button
               key={item.label}
               component={RouterNavLink}
@@ -44,16 +76,14 @@ const NavBar: React.FC = () => {
                 margin: '0 10px',
                 position: 'relative',
                 textTransform: 'none',
-                '&.active': {
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor: '#FF7F50',
-                    bottom: '-5px',
-                    left: 0,
-                  },
+                '&.active::after': {
+                  content: '""',
+                  position: 'absolute',
+                  width: '100%',
+                  height: '2px',
+                  backgroundColor: '#FF7F50',
+                  bottom: '-5px',
+                  left: 0,
                 },
               }}
               color="inherit"
@@ -62,17 +92,24 @@ const NavBar: React.FC = () => {
             </Button>
           ))}
         </Box>
-        <IconButton edge="end" color="inherit" aria-label="mode" onClick={toggleColorMode}>
+        <IconButton edge="end" color="inherit" aria-label="mode" onClick={toggleColorMode} sx={{paddingRight: '15px'}}>
           {theme.palette.mode === 'light' ? <Brightness4 /> : <Brightness7 />}
         </IconButton>
-        <IconButton 
-          edge="end" 
-          color="inherit" 
-          aria-label="terminal" 
-          onClick={handleOpen} 
-        >
+        <IconButton edge="end" color="inherit" aria-label="terminal" onClick={handleOpen} sx={{paddingRight: '15px'}}>
           <TerminalIcon />
         </IconButton>
+        {isMobile && (
+          <>
+            <IconButton edge="end" color="inherit" aria-label="menu" onClick={handleMenuOpen} sx={{paddingRight: '15px'}}>
+              <MenuIcon />
+            </IconButton>
+            <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start">
+              <Paper>
+                {menuItems}
+              </Paper>
+            </Popper>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );
