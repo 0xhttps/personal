@@ -95,6 +95,9 @@ const Contact: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <PageWrapper>
+        <Typography variant="h2" gutterBottom>
+          <code>/contact</code>
+        </Typography>
         <Box display="flex" flexDirection="column" alignItems="center">
           <Avatar src={pfp} alt="pfp" sx={{ width: 100, height: 100 }} />
           <Box mt={4} textAlign="center">

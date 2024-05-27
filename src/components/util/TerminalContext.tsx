@@ -4,8 +4,7 @@ import 'xterm/css/xterm.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useThemeContext } from '../../ThemeContext';
 import { navItems } from '../NavBar';
-import { useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { isMobile } from '../NavBar';
 
 interface TerminalContextProps {
   term: Terminal | null;
@@ -32,8 +31,6 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const terminalContainerRef = useRef<HTMLDivElement | null>(null);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [navigationHistory, setNavigationHistory] = useState<string[]>([]);
   const welcomeMessage = 'Welcome';
   let commandBuffer = '';
@@ -181,10 +178,12 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
       // page routing
       case 'cd about':
+      case 'cd /about':
         navigateToPage(term, '/about');
         term.writeln(`\r\nNavigating to /about ...`);
         break;
       case 'cd contact':
+      case 'cd /contact':
         navigateToPage(term, '/contact');
         term.writeln(`\r\nNavigating to /contact ...`);
         break;

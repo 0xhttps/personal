@@ -1,8 +1,7 @@
 import React from 'react';
 import PageWrapper from '../util/PageWrapper';
 import { Terminal as TerminalIcon } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import { Heading } from '@chakra-ui/react';
+import { IconButton, Typography, Box } from '@mui/material';
 import { useTerminalContext } from '../util/TerminalContext';
 
 const Home: React.FC = () => {
@@ -10,13 +9,16 @@ const Home: React.FC = () => {
   
   return (
     <PageWrapper>
-      <code>
-        <Heading>Hello!</Heading>
-        <body>
+        <Typography variant="h2" gutterBottom>
+          <code>/</code>
+        </Typography>
+        <Box>
           <code>
-            This is my website<br/>Press below to open terminal 
+            This is my website
+            <br/>
+            Press below to open terminal 
           </code>
-          <div>
+          <Box>
             <IconButton           
               color="inherit" 
               aria-label="terminal" 
@@ -24,9 +26,8 @@ const Home: React.FC = () => {
             >
               <TerminalIcon sx={{fontSize: "150px"}}/>
             </IconButton>
-          </div>
-        </body>
-      </code>
+          </Box>
+        </Box>
     </PageWrapper>
   );
 };

@@ -7,16 +7,18 @@ import { useThemeContext } from '../ThemeContext';
 import { useTerminalContext } from './util/TerminalContext';
 
 export const navItems = [
+  { label: 'Home', path: '/'},
   { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' }
 ];
 
+export var isMobile: any;
 
 const NavBar: React.FC = () => {
   const { toggleColorMode, theme } = useThemeContext();
   const { handleOpen } = useTerminalContext();
   const themeMUI = useTheme();
-  const isMobile = useMediaQuery(themeMUI.breakpoints.down('sm'));
+  isMobile = useMediaQuery(themeMUI.breakpoints.down('sm'));
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,9 +32,11 @@ const NavBar: React.FC = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popper' : undefined;
 
+  const filteredNavItems = navItems.filter(item => item.label !== 'Home');
+
   const menuItems = (
     <List>
-      {navItems.map((item) => (
+      {filteredNavItems.map((item) => (
         <ListItem button key={item.label} component={RouterLink} to={item.path} onClick={handleMenuClose}>
           <ListItemText 
             primary={<code>{item.label}</code>} />
@@ -67,7 +71,7 @@ const NavBar: React.FC = () => {
             >
               <code>0xhttps</code>
             </Button>
-          {!isMobile && navItems.map((item) => (
+          {!isMobile && filteredNavItems.map((item) => (
             <Button
               key={item.label}
               component={RouterNavLink}
