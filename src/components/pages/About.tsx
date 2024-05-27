@@ -13,11 +13,18 @@ const About: React.FC = () => {
       language: 'javascript'
     },
     {
-      title: 'Discord Price Bot',
+      title: 'Discord Price Bot (TS)',
       date: 'November, 2023',
       description: 'Ran this on a Raspberry Pi for months. Displays a crypto price as the bots username, updating frequently.',
       repoLink: 'https://github.com/0xhttps/discord-price-bot',
       language: 'typescript'
+    },
+    {
+      title: 'Discord Price Bot (Python)',
+      date: 'January, 2024',
+      description: 'Migrated the TypeScript bot to Python to improve speed and overall ease of use. Python is much better at this stuff!',
+      repoLink: 'https://github.com/0xhttps/discord-price-bot',
+      language: 'python'
     },
     {
       title: 'Buildable ERC1155',
