@@ -23,7 +23,7 @@ const About: React.FC = () => {
       title: 'Discord Price Bot (Python)',
       date: 'January, 2024',
       description: 'Migrated the TypeScript bot to Python to improve speed and overall ease of use. Python is much better at this stuff!',
-      repoLink: 'https://github.com/0xhttps/discord-price-bot',
+      repoLink: 'https://github.com/0xhttps/python-price-bot',
       language: 'python'
     },
     {
