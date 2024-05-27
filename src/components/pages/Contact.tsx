@@ -100,7 +100,7 @@ const Contact: React.FC = () => {
           <Box mt={4} textAlign="center">
             <p>
               {`You can reach me at `}
-              <Link href={`mailto:0xhttps.dev@gmail.com`} color="#FF7F50" ml={1}>
+              <Link href={`mailto:0xhttps.dev@gmail.com`} color="#FF7F50">
                 0xhttps.dev@gmail.com
               </Link>
               , or fill in the form below:
