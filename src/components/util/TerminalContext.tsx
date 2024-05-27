@@ -34,6 +34,8 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [navigationHistory, setNavigationHistory] = useState<string[]>([]);
   const welcomeMessage = 'Welcome';
   let commandBuffer = '';
+  const orangeColor = '\x1b[38;5;209m'; // Orange color code
+  const resetColor = '\x1b[0m'; // Reset color code
 
   const handleOpen = () => {
     setOpen(true);
@@ -44,7 +46,6 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setOpen(false);
     console.log('Closing terminal...');
   };
-
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -80,9 +81,11 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         cursorBlink: true,
         fontFamily: 'monospace',
         fontSize: 14,
+        scrollOnUserInput: true,
         theme: {
           background: '#1E1E1E',
           foreground: '#FFFFFF',
+          selectionForeground: '#FF7F50',
         },
       });
 
@@ -90,8 +93,11 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setTerm(terminalInstance);
 
       const prompt = () => {
-        terminalInstance.write('\r\n$ ');
+        const path = `~/0xhttps${window.location.hash.substring(1)}`;
+        const promptText = `${orangeColor}${path}${resetColor}\r\n$ `;
+        terminalInstance.write(`\r\n${promptText}`);
       };
+
       terminalInstance.writeln(`${welcomeMessage}\r\nUse this terminal to navigate\r\n"help" for commands`);
       terminalInstance.writeln(`\r\nAlt + Q to toggle`);
 
@@ -169,9 +175,9 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         term.writeln('\r');
         navItems.forEach(item => {
           if (window.location.hash.substring(1) === item.path) {
-            term.writeln(`* 0xhttps${item.path}`);
+            term.writeln(`${orangeColor}*${resetColor} ${item.path}`);
           } else {
-            term.writeln(`  0xhttps${item.path}`);
+            term.writeln(`  ${item.path}`);
           }
         });
         break;
@@ -183,17 +189,14 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       case 'cd about':
       case 'cd /about':
         navigateToPage(term, '/about');
-        term.writeln(`\r\nNavigating to 0xhttps/about ...`);
         break;
       case 'cd contact':
       case 'cd /contact':
         navigateToPage(term, '/contact');
-        term.writeln(`\r\nNavigating to 0xhttps/contact ...`);
         break;
       case 'cd home':
       case 'cd /':
         navigateToPage(term, '/');
-        term.writeln(`\r\nNavigating to 0xhttps/ ...`);
         break;
       case 'cd ..':
       case 'cd..':
@@ -221,6 +224,7 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         }
         return prevHistory;
       });
+      term.writeln(`\r\nNavigating to ${path}`);
       navigate(path);
     } else {
       term.writeln(`\r\nAlready on ${path}`);
@@ -231,8 +235,8 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setNavigationHistory((prevHistory) => {
       if (prevHistory.length > 1) {
         const previousPage = prevHistory[prevHistory.length - 2];
+        term.writeln(`\r\nNavigating to ${previousPage} ...`);
         navigate(previousPage);
-        term.writeln(`\r\nNavigating to 0xhttps${previousPage} ...`);
         return prevHistory.slice(0, -1);
       } else {
         term.writeln(`\r\nNo previous page in history`);
