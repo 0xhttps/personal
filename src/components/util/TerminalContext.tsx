@@ -35,8 +35,16 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const welcomeMessage = 'Welcome';
   let commandBuffer = '';
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    setOpen(true);
+    console.log('Opening terminal...');
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    console.log('Closing terminal...');
+  };
+
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -50,7 +58,7 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleOpen]);
 
   useEffect(() => {
     // Add the current pathname to the navigation history if it's not the same as the last one
@@ -122,7 +130,6 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (!command) return;
 
     switch (command.toLowerCase()) {
-      // help
       case 'help': 
         term.writeln(`\r\n\nls            list all pages`);
         term.writeln(`cd <page>     go to page`);
@@ -139,7 +146,6 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         term.writeln('\r\n' + new Date().toString());
         break;
 
-      // theme toggle
       case 'dark':
         setColorMode('dark');
         term.writeln('\r\nSwitched to dark mode');
@@ -148,8 +154,7 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setColorMode('light');
         term.writeln('\r\nSwitched to light mode');
         break;
-      
-      // clear terminal
+
       case 'clear':
       case 'reset':
         term.reset();
@@ -157,7 +162,6 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         term.writeln(`\r\nAlt + Q to toggle`);
         break;
 
-      // list all pages
       case 'ls':
       case 'pages':
       case 'page':
@@ -165,39 +169,37 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         term.writeln('\r');
         navItems.forEach(item => {
           if (window.location.hash.substring(1) === item.path) {
-            term.writeln(`* ${item.path}`);
+            term.writeln(`* 0xhttps${item.path}`);
           } else {
-            term.writeln(`  ${item.path}`);
+            term.writeln(`  0xhttps${item.path}`);
           }
         });
         break;
 
       case 'pwd':
-        term.writeln(`\r\n${window.location.hash.substring(1)}`);
+        term.writeln(`\r\n0xhttps${window.location.hash.substring(1)}`);
         break;
 
-      // page routing
       case 'cd about':
       case 'cd /about':
         navigateToPage(term, '/about');
-        term.writeln(`\r\nNavigating to /about ...`);
+        term.writeln(`\r\nNavigating to 0xhttps/about ...`);
         break;
       case 'cd contact':
       case 'cd /contact':
         navigateToPage(term, '/contact');
-        term.writeln(`\r\nNavigating to /contact ...`);
+        term.writeln(`\r\nNavigating to 0xhttps/contact ...`);
         break;
       case 'cd home':
       case 'cd /':
         navigateToPage(term, '/');
-        term.writeln(`\r\nNavigating to / ...`);
+        term.writeln(`\r\nNavigating to 0xhttps/ ...`);
         break;
       case 'cd ..':
       case 'cd..':
         navigateToPreviousPage(term);
         break;
-      
-      // close terminal
+
       case 'close':
       case 'kill':
         handleClose();
@@ -230,7 +232,7 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       if (prevHistory.length > 1) {
         const previousPage = prevHistory[prevHistory.length - 2];
         navigate(previousPage);
-        term.writeln(`\r\nNavigating to ${previousPage}...`);
+        term.writeln(`\r\nNavigating to 0xhttps${previousPage} ...`);
         return prevHistory.slice(0, -1);
       } else {
         term.writeln(`\r\nNo previous page in history`);

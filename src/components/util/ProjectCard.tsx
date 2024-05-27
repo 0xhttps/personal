@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardActionArea, Box, Typography } from '@mui/material';
 import { IconType } from 'react-icons';
-import { DiJavascript1, DiJava, DiRust } from 'react-icons/di';
+import { DiJavascript1, DiJava, DiRust, DiPython } from 'react-icons/di';
 import { SiTypescript, SiSolidity } from 'react-icons/si';
 
 interface ProjectCardProps {
@@ -22,6 +22,8 @@ const getLanguageIcon = (language: string): IconType => {
       return SiSolidity;
     case 'java':
       return DiJava;
+    case 'python':
+      return DiPython;
     default:
       return DiRust;
   }
