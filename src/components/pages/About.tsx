@@ -50,7 +50,7 @@ const About: React.FC = () => {
   ];
   return (
     <PageWrapper>
-        <Typography variant="h2" gutterBottom>
+        <Typography variant="h2">
           <code>/about</code>
         </Typography>       
         <Box>
@@ -72,9 +72,9 @@ const About: React.FC = () => {
         <Typography variant="h5" paddingTop="20px" paddingBottom="20px">
         <code>My Projects</code>
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch' }}>
           {projects.map((project, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid item xs={12} sm={6} md={4} key={index} style={{ display: 'flex' }}>
               <ProjectCard
                 language={project.language}
                 date={project.date}

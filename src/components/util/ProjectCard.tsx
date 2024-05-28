@@ -33,12 +33,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ date, title, description, lan
   const LanguageIcon = getLanguageIcon(language);
 
   return (
-    <Card sx={{ maxWidth: 400, height: 310, overflow: 'scroll' }}>
-      <CardActionArea href={repoLink} target="_blank" sx={{ height: 310 }}>
+    <Card sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+      <CardActionArea href={repoLink} target="_blank" sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Box display="flex" alignItems="center" justifyContent="center" height="100px" bgcolor="transparent">
           <LanguageIcon size="3.5em" color='#FF7F50' />
         </Box>
-        <CardContent>
+        <CardContent sx={{ flex: 1 }}>
           <Typography gutterBottom variant="body2" color="text.secondary" style={{ color:'#FF7F50' }} >
             <code>{date}</code>
           </Typography>

@@ -23,7 +23,7 @@ const Home: React.FC = () => {
 
   return (
     <PageWrapper>
-      <Typography variant="h2" gutterBottom>
+      <Typography variant="h2">
         <code>/</code>
       </Typography>
       <Box display="flex" flexDirection="column" alignItems="center">
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
           Used <Link href='https://xtermjs.org/' color="#FF7F50">xterm.js</Link> to create the terminal effect,
           with my own custom commands and styling.
         </p>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5">
           <code>Commands</code>
         </Typography>
         <Box>
