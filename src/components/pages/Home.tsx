@@ -49,7 +49,7 @@ const Home: React.FC = () => {
           Used <Link href='https://xtermjs.org/' color="#FF7F50">xterm.js</Link> to create the terminal effect,
           with my own custom commands and styling.
         </p>
-        <Typography variant="h5">
+        <Typography variant="h5" gutterBottom>
           <code>Commands</code>
         </Typography>
         <Box>
