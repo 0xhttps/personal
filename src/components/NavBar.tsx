@@ -1,20 +1,24 @@
 import React, { useEffect, useRef } from 'react';
 import { Link as RouterLink, NavLink as RouterNavLink } from 'react-router-dom';
 import { AppBar, Toolbar, Button, IconButton, Box, Popper, Paper, List, ListItem, ListItemText, useMediaQuery } from '@mui/material';
-import { Brightness4, Brightness7, Terminal as TerminalIcon, Menu as MenuIcon } from '@mui/icons-material';
+import { Brightness4, Brightness7, Terminal as TerminalIcon, Menu as MenuIcon, Login, Logout } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { useThemeContext } from '../ThemeContext';
 import { useTerminalContext } from './util/TerminalContext';
+import { useAuth } from "./util/AuthContext";
+
 
 export const navItems = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/contact' }
+  { label: 'Contact', path: '/contact' },
+  { label: 'Ai', path: '/ai' }
 ];
 
 export var isMobile: any;
 
 const NavBar: React.FC = () => {
+  const { user, login, logout } = useAuth();
   const { toggleColorMode, theme } = useThemeContext();
   const { handleOpen } = useTerminalContext();
   const themeMUI = useTheme();
@@ -122,6 +126,9 @@ const NavBar: React.FC = () => {
         </IconButton>
         <IconButton edge="end" color="inherit" aria-label="terminal" onClick={handleOpen} sx={{ paddingRight: '15px' }}>
           <TerminalIcon />
+        </IconButton>
+        <IconButton edge="end" color="inherit" aria-label="login" onClick={user ? logout : login} sx={{ paddingRight: '15px' }}>
+          {user ? <Logout /> : <Login />}
         </IconButton>
         {isMobile && (
           <>
