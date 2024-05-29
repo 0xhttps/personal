@@ -7,6 +7,7 @@ import { Box } from '@mui/material';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Contact from './components/pages/Contact';
+import AI from './components/pages/AI';
 import TerminalOverlay from './components/util/TerminalOverlay';
 import TerminalProvider from './components/util/TerminalContext';
 
@@ -14,16 +15,17 @@ const App: React.FC = () => {
   return (
     <ThemeContextProvider>
         <HashRouter>
-        <TerminalProvider>
-          <NavBar />
-          <Box sx={{ mt: 8 }}>
-            <Routes>
-              <Route path="/" element={<Home/>} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-          </Box>
-          <TerminalOverlay />
+          <TerminalProvider>
+            <NavBar />
+            <Box sx={{ mt: 8 }}>
+              <Routes>
+                <Route path="/" element={<Home/>} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/ai" element={<AI />} />
+              </Routes>
+            </Box>
+            <TerminalOverlay />
           </TerminalProvider>
         </HashRouter>
     </ThemeContextProvider>
