@@ -3,10 +3,10 @@ import PageWrapper from '../util/PageWrapper';
 import { Terminal as TerminalIcon } from '@mui/icons-material';
 import { IconButton, Typography, Box, Link } from '@mui/material';
 import { useTerminalContext } from '../util/TerminalContext';
+import { isMobile } from '../NavBar';
 
 const Home: React.FC = () => {
   const { handleOpen } = useTerminalContext();
-
   // List of terminal commands
   const commands = [
     { command: 'help', description: 'List all commands' },
@@ -20,7 +20,6 @@ const Home: React.FC = () => {
     { command: 'clear', description: 'Clear terminal' },
     { command: 'close', description: 'Close terminal' },
   ];
-
   return (
     <PageWrapper>
       <Typography variant="h2">
@@ -30,6 +29,11 @@ const Home: React.FC = () => {
         <Box mt={0} textAlign="left">
           Press below to open terminal
         </Box>
+        {!isMobile &&(
+          <Box paddingTop='4px' textAlign="left">
+            Alt + Q to open from any page
+          </Box>
+        )}
         <Box>
           <IconButton
             color="inherit"
