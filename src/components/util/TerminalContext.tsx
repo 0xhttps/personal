@@ -32,7 +32,6 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const location = useLocation();
   const terminalContainerRef = useRef<HTMLDivElement | null>(null);
   const [navigationHistory, setNavigationHistory] = useState<string[]>([]);
-  const welcomeMessage = 'Welcome';
   let commandBuffer = '';
   const orangeColor = '\x1b[38;5;209m'; // Orange color code
   const resetColor = '\x1b[0m'; // Reset color code
@@ -98,8 +97,7 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         terminalInstance.write(`\r\n${promptText}`);
       };
 
-      terminalInstance.writeln(`${welcomeMessage}\r\nUse this terminal to navigate\r\n"help" for commands`);
-      terminalInstance.writeln(`\r\nAlt + Q to toggle`);
+      terminalInstance.writeln(`Use this terminal to navigate\r\n"help" for commands`);
 
       if (isMobile) {
         terminalInstance.writeln('\r\nNOTE: Not optimized for mobile');
@@ -164,8 +162,6 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       case 'clear':
       case 'reset':
         term.reset();
-        term.writeln(`${welcomeMessage}\r\nUse this terminal to navigate\r\n"help" for commands`);
-        term.writeln(`\r\nAlt + Q to toggle`);
         break;
 
       case 'ls':
@@ -194,6 +190,10 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       case 'cd /contact':
         navigateToPage(term, '/contact');
         break;
+      case 'cd ai':
+        case 'cd /ai':
+          navigateToPage(term, '/ai');
+          break;
       case 'cd home':
       case 'cd /':
         navigateToPage(term, '/');
@@ -206,6 +206,7 @@ const TerminalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       case 'close':
       case 'kill':
         handleClose();
+        term.reset();
         break;
 
       default:
