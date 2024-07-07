@@ -121,23 +121,36 @@ const NavBar: React.FC = () => {
             </Button>
           ))}
         </Box>
-        <IconButton edge="end" color="inherit" aria-label="mode" onClick={toggleColorMode} sx={{ paddingRight: '15px' }}>
-          {theme.palette.mode === 'light' ? <Brightness4 /> : <Brightness7 />}
-        </IconButton>
-        <IconButton edge="end" color="inherit" aria-label="terminal" onClick={handleOpen} sx={{ paddingRight: '15px' }}>
-          <TerminalIcon />
-        </IconButton>
-        <IconButton edge="end" color="inherit" aria-label="login" onClick={user ? logout : login} sx={{ paddingRight: '15px' }}>
-          {user ? <Logout /> : <Login />}
-        </IconButton>
+        {!isMobile && (
+          <>
+            <IconButton edge="end" color="inherit" aria-label="mode" onClick={toggleColorMode} sx={{ marginRight: '10px' }}>
+              {theme.palette.mode === 'light' ? <Brightness4 /> : <Brightness7 />}
+            </IconButton>
+            <IconButton edge="end" color="inherit" aria-label="terminal" onClick={handleOpen} sx={{ marginRight: '10px' }}>
+              <TerminalIcon />
+            </IconButton>
+            <IconButton edge="end" color="inherit" aria-label="login" onClick={user ? logout : login} sx={{ marginRight: '10px' }}>
+              {user ? <Logout /> : <Login />}
+            </IconButton>
+          </>
+        )}
         {isMobile && (
           <>
-            <IconButton edge="end" color="inherit" aria-label="menu" onClick={handleMenuOpen} sx={{ paddingRight: '15px' }}>
-              <MenuIcon />
+            <IconButton edge="end" color="inherit" aria-label="menu" onClick={handleMenuOpen} sx={{ marginRight: '10px' }}>
+              <MenuIcon fontSize='medium'/>
             </IconButton>
             <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start">
               <Paper ref={popperRef}>
                 {menuItems}
+                <IconButton edge="end" color="inherit" aria-label="mode" onClick={toggleColorMode} sx={{ marginRight: '10px' }}>
+                  {theme.palette.mode === 'light' ? <Brightness4 /> : <Brightness7 />}
+                </IconButton>
+                <IconButton edge="end" color="inherit" aria-label="terminal" onClick={handleOpen} sx={{ marginRight: '10px' }}>
+                  <TerminalIcon />
+                </IconButton>
+                <IconButton edge="end" color="inherit" aria-label="login" onClick={user ? logout : login} sx={{ marginRight: '10px' }}>
+                  {user ? <Logout /> : <Login />}
+                </IconButton>
               </Paper>
             </Popper>
           </>

@@ -10,7 +10,7 @@ const PageFooter: React.FC<{}> = () => {
                     <GitHub fontSize="large" />
                 </Link>
             </Box>
-            <Typography variant="body2" color="inherit">
+            <Typography variant="inherit" color="inherit">
                 &copy; {new Date().getFullYear()} 0xhttps.
             </Typography>
         </Box>
