@@ -52,20 +52,17 @@ const About: React.FC = () => {
     <PageWrapper>
         <Typography variant="h2">
           <code>/about</code>
-        </Typography>       
+        </Typography>
         <Box>
+        <Typography variant="h5" paddingTop="20px" paddingBottom="20px">
+        <code>Hi</code>
+        </Typography>
           <p>
-            Hey! 
+            I'm Michael. I like to make things.
             <br/><br/>
-            My name is Michael. 
+            My main goal with this website is to learn more web stuff. I will continue adding features as they come to me (likely random useless features lol).
             <br/><br/>
-            I am 23, living in the PNW. Much of my time is spent learning and creating various things both at work, and at home.
-            Recently, I have taken up React as a hobby, which is why you are seeing this :P
-            <br/>
-            My goal here is to continue adding onto this as time goes on, showcasing both things I am learning currently, and projects I have done in the past.
-            <br/><br/>
-            Below, you can find some of my favorite projects. I have learned pretty much everything I know (dev wise) working with/in crypto, which you'll notice by the common theme of the projects.
-            Anyways, thanks for taking the time to read this. Have a nice day :)
+            Below, you can find some random projects of mine.
           </p>
         </Box>
         <Box>
