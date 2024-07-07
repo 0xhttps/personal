@@ -24,7 +24,7 @@ const AI: React.FC = () => {
     }
     setConversation([...conversation, { role: 'user', content: prompt }]);
     try {
-      const res = await fetch('http://www.0xhttps.dev/api/ai', {
+      const res = await fetch('https://www.0xhttps.dev/api/ai', {
       //const res = await fetch('http://localhost:4442/api/ai', {
         method: 'POST',
         headers: {
