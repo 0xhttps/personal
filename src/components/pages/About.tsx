@@ -62,7 +62,7 @@ const About: React.FC = () => {
             <br/><br/>
             My main goal with this website is to learn more web stuff. I will continue adding features as they come to me (likely random useless features lol).
             <br/><br/>
-            Below, you can find some random projects of mine.
+            Below, you can find some past projects of mine.
           </p>
         </Box>
         <Box>
