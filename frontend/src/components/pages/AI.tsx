@@ -1,41 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Typography, Box, TextField, Button, IconButton } from "@mui/material";
 import { Login } from '@mui/icons-material';
 import PageWrapper from "../util/PageWrapper";
-import OpenAI from "openai";
 import { ThemeProvider } from '@mui/material/styles';
 import { inputTheme } from '../util/inputTheme';
 import { useAuth } from "../util/AuthContext";
+
+let hasSent = false;
 
 const AI: React.FC = () => {
   const [prompt, setPrompt] = useState('');
   const [response, setResponse] = useState<string | null>(null);
   const { user, login } = useAuth();
-  const [isWhitelisted, setIsWhitelisted] = useState(false);
-
-  const openai = new OpenAI({
-    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true
-  });
-
+  const [conversation, setConversation] = useState<{ role: string, content: string }[]>([
+    { role: 'system', content: 'You are a helpful assistant.' }
+  ]);
   const handleSubmit = async (e: React.FormEvent) => {
+    hasSent = true;
     e.preventDefault();
-    if (!isWhitelisted) {
+    if (!user) {
       setResponse("You are not Authorized! Oh no... If you want to use this, please have 0xhttps whitelist you. Send him an email :)");
       return;
     }
+    setConversation([...conversation, { role: 'user', content: prompt }]);
     try {
-      const result = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
-        max_tokens: 150,
-        n: 1,
-        stop: null,
-        temperature: 0.7,
+      const res = await fetch('http://www.0xhttps.dev/api/ai', {
+      //const res = await fetch('http://localhost:4442/api/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ conversation: [...conversation, { role: 'user', content: prompt }] })
       });
-      const message = result.choices[0]?.message?.content;
+      const result = await res.json();
+      const message = result.message;
       if (message) {
         setResponse(message);
+        setConversation([...conversation, { role: 'user', content: prompt }, { role: 'assistant', content: message }]);
       } else {
         setResponse("No response received.");
       }
@@ -50,14 +51,12 @@ const AI: React.FC = () => {
     setResponse('');
   };
 
-  useEffect(() => {
-    const whitelistedUsers = import.meta.env.VITE_WHITELIST;
-    if (user && user.email && whitelistedUsers.includes(user.email)) {
-      setIsWhitelisted(true);
-    } else {
-      setIsWhitelisted(false);
-    }
-  }, [user]);
+  const newChat = () => {
+    setConversation([{ role: 'system', content: 'You are a helpful assistant.' }]);
+    hasSent = false;
+    setPrompt('');
+    setResponse('');
+  };
 
   return (
     <ThemeProvider theme={inputTheme}>
@@ -68,6 +67,13 @@ const AI: React.FC = () => {
         {user ? (
           <Box display="flex" flexDirection="column" alignItems="center">
             <Box component="form" onSubmit={handleSubmit} width="100%" maxWidth="600px">
+              <Box display="flex" justifyContent="flex-end" mt={2}>
+                {hasSent ? (
+                <Button type="button" onClick={newChat} variant="contained" style={{ backgroundColor: '#FF7F50', color: 'inherit' }}>
+                  NEW CHAT
+                </Button>
+                ) : (<></>)}
+              </Box>
               <TextField
                 label="Prompt"
                 value={prompt}
@@ -82,19 +88,21 @@ const AI: React.FC = () => {
               />
               <Box display="flex" justifyContent="flex-start" mt={2}>
                 <Button type="submit" variant="contained" style={{ backgroundColor: '#FF7F50', color: 'inherit', marginRight: '10px' }}>
-                  <code>Submit</code>
+                  SUBMIT
                 </Button>
                 {(prompt.length > 0 || response) && (
                   <Button type="button" variant="contained" onClick={clearPrompt} style={{ backgroundColor: '#FF7F50', color: 'inherit'}}>
-                    <code>Clear</code>
+                    CLEAR INPUT
                   </Button>
                 )}
               </Box>
             </Box>
-            {response && (
+            {conversation.length > 1 && (
               <Box mt={4} width="100%" maxWidth="600px">
-                <Typography variant="h5">Response:</Typography>
-                <Typography variant="body1">{response}</Typography>
+                <Typography variant="h5">Conversation:</Typography>
+                {conversation.slice(1).map((msg, index) => (
+                  <Typography key={index} variant="body1"><strong>{msg.role}:</strong> {msg.content}</Typography>
+                ))}
               </Box>
             )}
           </Box>

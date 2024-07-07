@@ -15,8 +15,8 @@ import TerminalProvider from './components/util/TerminalContext';
   const getStuff = async () => {
     try {
       console.log('Fetching data...');
-      //const response = await fetch('http://localhost:4442/api/');
-      const response = await fetch('https://0xhttps.dev/api/');
+      const response = await fetch('http://localhost:4442/api');
+      //const response = await fetch('https://0xhttps.dev/api/');
       if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
       }
