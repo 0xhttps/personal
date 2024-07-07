@@ -15,6 +15,8 @@ const allowedOrigins = [
   'https://www.0xhttps.dev',
   'https://0xhttps-personal.vercel.app',
   'https://www.0xhttps-personal.vercel.app',
+  'https://0xhttps.dev/#/ai',
+  'https://www.0xhttps.dev/#/ai'.
   process.env.LOCAL_PORT
 ];
 
