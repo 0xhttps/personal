@@ -10,7 +10,7 @@ app.use(express.json());
 const allowedOrigins = [
   'https://0xhttps.dev',
   'https://0xhttps-personal.vercel.app',
-  `http://localhost:${process.env.PORT}` // Add localhost for development
+  process.env.LOCAL_PORT // Add localhost for development
 ];
 
 app.use(cors({

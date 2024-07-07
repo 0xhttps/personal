@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes, HashRouter } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import PageFooter from './components/util/PageFooter';
@@ -12,7 +12,30 @@ import AI from './components/pages/AI';
 import TerminalOverlay from './components/util/TerminalOverlay';
 import TerminalProvider from './components/util/TerminalContext';
 
-const App: React.FC = () => {
+  const getStuff = async () => {
+    try {
+      console.log('Fetching data...');
+      //const response = await fetch('http://localhost:4442/api/');
+      const response = await fetch('http://0xhttps.dev/api/');
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+  
+  const App: React.FC = () => {
+    useEffect(() => {
+      console.log('useEffect called');
+      const fetchData = async () => {
+        await getStuff();
+      };
+      fetchData();
+    }, []);
   return (
     <ThemeContextProvider>
       <HashRouter>
