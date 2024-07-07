@@ -9,7 +9,9 @@ const app = express();
 app.use(express.json());
 const allowedOrigins = [
   'https://0xhttps.dev',
+  'https://www.0xhttps.dev',
   'https://0xhttps-personal.vercel.app',
+  'https://www.0xhttps-personal.vercel.app',
   process.env.LOCAL_PORT // Add localhost for development
 ];
 
