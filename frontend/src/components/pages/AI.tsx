@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Typography, Box, TextField, Button, IconButton } from "@mui/material";
-import { Login } from '@mui/icons-material';
+import { Typography, Box, Paper, InputBase, IconButton } from "@mui/material";
+import { Login, ArrowUpward, DeleteForever, Backspace } from '@mui/icons-material';
 import PageWrapper from "../util/PageWrapper";
 import { ThemeProvider } from '@mui/material/styles';
 import { inputTheme } from '../util/inputTheme';
@@ -13,19 +13,22 @@ const AI: React.FC = () => {
   const [response, setResponse] = useState<string | null>(null);
   const { user, login } = useAuth();
   const [conversation, setConversation] = useState<{ role: string, content: string }[]>([
-    { role: 'system', content: 'You are a helpful assistant.' }
+    { role: 'system', content: 'You are a chat bot on a website. The url of the website is 0xhttps.dev. This is a personal portfolio website make by 0xhttps (also known as Michael).' }
   ]);
+
   const handleSubmit = async (e: React.FormEvent) => {
-    hasSent = true;
     e.preventDefault();
     if (!user) {
       setResponse("You are not Authorized! Oh no... If you want to use this, please have 0xhttps whitelist you. Send him an email :)");
       return;
     }
+    if (prompt.trim() === '') {
+      return; // Prevent sending empty messages
+    }
+    hasSent = true;
     setConversation([...conversation, { role: 'user', content: prompt }]);
     try {
-      const res = await fetch('https://www.0xhttps.dev/api/ai', {
-      //const res = await fetch('http://localhost:4442/api/ai', {
+      const res = await fetch('http://localhost:4442/api/ai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -40,6 +43,7 @@ const AI: React.FC = () => {
       } else {
         setResponse("No response received.");
       }
+      setPrompt('');
     } catch (error) {
       console.error("Error generating response:", error);
       setResponse("Error generating response.");
@@ -52,10 +56,17 @@ const AI: React.FC = () => {
   };
 
   const newChat = () => {
-    setConversation([{ role: 'system', content: 'You are a helpful assistant.' }]);
+    setConversation([{ role: 'system', content: 'You are a chat bot on a website. The url of the website is 0xhttps.dev. This is a personal portfolio website make by 0xhttps (also known as Michael).' }]);
     hasSent = false;
     setPrompt('');
     setResponse('');
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e as unknown as React.FormEvent);
+    }
   };
 
   return (
@@ -66,45 +77,69 @@ const AI: React.FC = () => {
         </Typography>
         {user ? (
           <Box display="flex" flexDirection="column" alignItems="center">
-            <Box component="form" onSubmit={handleSubmit} width="100%" maxWidth="600px">
-              <Box display="flex" justifyContent="flex-end" mt={2}>
-                {hasSent ? (
-                <Button type="button" onClick={newChat} variant="contained" style={{ backgroundColor: '#FF7F50', color: 'inherit' }}>
-                  NEW CHAT
-                </Button>
-                ) : (<></>)}
-              </Box>
-              <TextField
-                label="Prompt"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                fullWidth
-                required
-                multiline
-                rows={4}
-                variant="outlined"
-                margin="normal"
-                placeholder="Enter your prompt"
-              />
-              <Box display="flex" justifyContent="flex-start" mt={2}>
-                <Button type="submit" variant="contained" style={{ backgroundColor: '#FF7F50', color: 'inherit', marginRight: '10px' }}>
-                  SUBMIT
-                </Button>
-                {(prompt.length > 0 || response) && (
-                  <Button type="button" variant="contained" onClick={clearPrompt} style={{ backgroundColor: '#FF7F50', color: 'inherit'}}>
-                    CLEAR INPUT
-                  </Button>
-                )}
-              </Box>
-            </Box>
-            {conversation.length > 1 && (
-              <Box mt={4} width="100%" maxWidth="600px">
-                <Typography variant="h5">Conversation:</Typography>
-                {conversation.slice(1).map((msg, index) => (
-                  <Typography key={index} variant="body1"><strong>{msg.role}:</strong> {msg.content}</Typography>
+            <Box component="form" onSubmit={handleSubmit} width="100%" maxWidth="600px" sx={{ border: '1px solid #FF7F50', borderRadius: '5px', height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '1rem' }}>
+              <Box sx={{ overflowY: 'auto', flexGrow: 1 }}>
+                {conversation.length > 1 && conversation.slice(1).map((msg, index) => (
+                  <Typography key={index} variant="body1"><strong className="role">{msg.role}:</strong> {msg.content}<br /><br /></Typography>
                 ))}
               </Box>
-            )}
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'right' }}>
+                <Box style={{width: '90%'}}/>
+                  <IconButton
+                    onClick={newChat}
+                    sx={{
+                      p: '5px',
+                      color: '#FF7F50',
+                      ':hover': { backgroundColor: 'inherit' },
+                      ':active': { backgroundColor: 'inherit' }
+                    }}
+                    aria-label="new chat"
+                  >
+                    <DeleteForever sx={{ fontSize: "30px", color: 'inherit' }} />
+                  </IconButton>
+                  <IconButton
+                    onClick={clearPrompt}
+                    sx={{
+                      p: '5px',
+                      pr: 0,
+                      color: '#FF7F50',
+                      ':hover': { backgroundColor: 'inherit' },
+                      ':active': { backgroundColor: 'inherit' }
+                    }}
+                    aria-label="clear prompt"
+                  >
+                    <Backspace sx={{ fontSize: "30px", color: 'inherit' }} />
+                  </IconButton>
+              </Box>
+              <Paper
+                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', mt: 1, backgroundColor: 'inherit', color: 'inherit', border:'1px solid #FF7F50' }}
+              >
+                <InputBase
+                  sx={{ ml: 1, mr: 1, flex: 1, color: 'inherit'}}
+                  placeholder="Enter your prompt"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  multiline
+                  rows={3}
+                  inputProps={{ 'aria-label': 'enter your prompt' }}
+                />
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <IconButton
+                  type="submit"
+                  sx={{
+                    p: '5px',
+                    color: '#FF7F50',
+                    ':hover': { backgroundColor: 'inherit' },
+                    ':active': { backgroundColor: 'inherit' }
+                  }}
+                  aria-label="submit"
+                >
+                  <ArrowUpward sx={{ fontSize: "35px", color: 'inherit' }} />
+                </IconButton>
+                </Box>
+              </Paper>
+            </Box>
           </Box>
         ) : (
           <Box display="flex" flexDirection="column" alignItems="center">

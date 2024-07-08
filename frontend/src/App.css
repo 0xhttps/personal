@@ -45,10 +45,16 @@ p {
 }
 
 @media (max-width: 768px) {
- /* for mobile stuff later */
+  .chat-box {
+    max-height: 90vh;
+    height: 70vh;
+  }
 }
 
 .page-wrapper {
-  padding: 1rem
+  padding: 1rem;
 }
 
+.role {
+  color: #FF7F50;
+}
