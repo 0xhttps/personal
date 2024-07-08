@@ -28,7 +28,8 @@ const AI: React.FC = () => {
     hasSent = true;
     setConversation([...conversation, { role: 'user', content: prompt }]);
     try {
-      const res = await fetch('http://localhost:4442/api/ai', {
+      //const res = await fetch('http://localhost:4442/api/ai', {
+      const res = await fetch('https://0xhttps.dev/api/ai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
