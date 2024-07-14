@@ -4,9 +4,9 @@ import NavBar from './components/NavBar';
 import PageFooter from './components/util/PageFooter';
 import { ThemeContextProvider } from './ThemeContext';
 import { Box } from '@mui/material';
-
 import TerminalOverlay from './components/util/TerminalOverlay';
 import TerminalProvider from './components/util/TerminalContext';
+import Loading from './components/pages/Loading';
 
 const Home = lazy(() => import('./components/pages/Home'));
 const About = lazy(() => import('./components/pages/About'));
@@ -16,8 +16,7 @@ const AI = lazy(() => import('./components/pages/AI'));
 const getStuff = async () => {
   try {
     console.log('Fetching data...');
-    //const response = await fetch('http://localhost:4442/api');
-     const response = await fetch('https://0xhttps.dev/api/');
+    const response = await fetch('https://0xhttps.dev/api/');
     if (!response.ok) {
       throw new Error('Network response was not ok ' + response.statusText);
     }
@@ -45,7 +44,7 @@ const App: React.FC = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <NavBar />
             <Box sx={{ flex: 1, mt: 8 }}>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading />}>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/about" element={<About />} />
