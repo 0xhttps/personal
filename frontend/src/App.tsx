@@ -7,6 +7,7 @@ import { Box } from '@mui/material';
 import TerminalOverlay from './components/util/TerminalOverlay';
 import TerminalProvider from './components/util/TerminalContext';
 import Loading from './components/pages/Loading';
+import SetTitle from './components/util/SetTitle'
 
 const Home = lazy(() => import('./components/pages/Home'));
 const About = lazy(() => import('./components/pages/About'));
@@ -40,6 +41,7 @@ const App: React.FC = () => {
   return (
     <ThemeContextProvider>
       <HashRouter>
+      <SetTitle />
         <TerminalProvider>
           <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <NavBar />
